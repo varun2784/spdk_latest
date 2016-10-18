@@ -159,14 +159,14 @@ spdk_build_eal_cmdline(struct spdk_app_opts *opts)
 		rte_exit(EXIT_FAILURE, "ealargs spdk_sprintf_alloc");
 	}
 
-#ifdef __linux__
+//#ifdef __linux__
 	/* set the process type */
 	g_arg_strings[EAL_PROC_TYPE_ARG] = spdk_sprintf_alloc("--proc-type=auto");
-#else
+//#else
 	/* --proc-type is not required on FreeBSD */
 	/* TODO: to enable the support on FreeBSD once it supports process shared mutex */
-	g_arg_strings[EAL_PROC_TYPE_ARG] = strdup("");
-#endif
+//	g_arg_strings[EAL_PROC_TYPE_ARG] = strdup("");
+//#endif
 	if (g_arg_strings[EAL_PROC_TYPE_ARG] == NULL) {
 		spdk_free_ealargs();
 		rte_exit(EXIT_FAILURE, "ealargs spdk_sprintf_alloc");
@@ -201,6 +201,7 @@ spdk_init_dpdk(struct spdk_app_opts *opts)
 	if (rc < 0)
 		rte_exit(EXIT_FAILURE, "Invalid EAL arguments for DPDK\n");
 
+	rte_mempool_init();
 	g_dpdk_initialized = true;
 
 	printf("done.\n");
